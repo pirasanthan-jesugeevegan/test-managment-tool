@@ -1,8 +1,8 @@
 const express = require('express');
 const RateLimit = require('express-rate-limit');
 const path = require('path');
-const { Sequelize } = require('sequelize');
 const app = express();
+const getSequelizeInstance = require('./config/database');
 
 // enable frontend access
 const cors = require('cors');
@@ -28,11 +28,7 @@ app.use(limiter);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // init sequalize
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'database/database.sqlite',
-  logging: false,
-});
+const sequelize = getSequelizeInstance();
 
 // "/"
 const indexRoute = require('./routes/index');

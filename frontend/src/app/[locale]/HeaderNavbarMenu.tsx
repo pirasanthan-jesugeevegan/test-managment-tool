@@ -11,14 +11,12 @@ import {
   NavbarMenuToggle,
   NavbarBrand,
   NavbarItem,
-  Link as NextUiLink,
-  Chip,
   ListboxItem,
   Listbox,
 } from '@heroui/react';
-import { ArrowRightFromLine, ArrowRightToLine, File, Globe, MoveUpRight, PenTool } from 'lucide-react';
+import { ArrowRightFromLine, ArrowRightToLine,  Globe, PenTool } from 'lucide-react';
 import { ThemeSwitch } from '@/components/ThemeSwitch';
-import { GithubIcon } from '@/components/icons';
+
 import { locales } from '@/config/selection';
 import DropdownAccount from './DropdownAccount';
 import DropdownLanguage from './DropdownLanguage';
@@ -47,26 +45,6 @@ export default function HeaderNavbarMenu({ messages, locale }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const context = useContext(TokenContext);
 
-  const commonLinks = [
-    {
-      uid: 'projects',
-      href: '/projects',
-      label: messages.projects,
-      isExternal: false,
-    },
-    {
-      uid: 'docs',
-      href: 'https://kimatata.github.io/unittcms/docs/getstarted/selfhost',
-      label: messages.docs,
-      isExternal: true,
-    },
-    {
-      uid: 'roadmap',
-      href: 'https://kimatata.github.io/unittcms/docs/roadmap/',
-      label: messages.roadmap,
-      isExternal: true,
-    },
-  ];
 
   const router = useRouter();
   const pathname = usePathname();
@@ -92,36 +70,8 @@ export default function HeaderNavbarMenu({ messages, locale }: Props) {
           </Link>
         </NavbarBrand>
         <NavbarItem className="hidden md:block">
-          <Chip size="sm" variant="flat">
-            <Link className="data-[active=true]:text-primary data-[active=true]:font-medium" href="/" locale={locale}>
-              1.0.0-beta.10
-            </Link>
-          </Chip>
         </NavbarItem>
-        {commonLinks.map((link) =>
-          link.isExternal ? (
-            <NavbarItem key={link.uid} className="hidden md:block">
-              <NextUiLink
-                isExternal
-                href={link.href}
-                showAnchorIcon
-                anchorIcon={<MoveUpRight size={12} className="ms-1" />}
-              >
-                {link.label}
-              </NextUiLink>
-            </NavbarItem>
-          ) : (
-            <NavbarItem key={link.uid} className="hidden md:block">
-              <Link
-                className="data-[active=true]:text-primary data-[active=true]:font-medium"
-                href={link.href}
-                locale={locale}
-              >
-                {link.label}
-              </Link>
-            </NavbarItem>
-          )
-        )}
+       
         {context.isAdmin() && (
           <NavbarItem key="admin" className="hidden md:block">
             <Link
@@ -136,9 +86,7 @@ export default function HeaderNavbarMenu({ messages, locale }: Props) {
       </NavbarContent>
 
       <NavbarContent className="basis-1 pl-4" justify="end">
-        <NextUiLink isExternal href="https://github.com/kimatata/unittcms" aria-label="Github">
-          <GithubIcon className="text-default-500" />
-        </NextUiLink>
+  
         <ThemeSwitch />
         <div className="hidden md:block">
           <DropdownAccount messages={messages} locale={locale} onItemPress={() => {}} />
@@ -150,36 +98,7 @@ export default function HeaderNavbarMenu({ messages, locale }: Props) {
       <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
           <p className="font-bold">{messages.links}</p>
-          <Listbox
-            aria-label="Links"
-            itemClasses={{
-              base: 'h-10 text-large',
-            }}
-          >
-            {commonLinks.map((link) =>
-              link.isExternal ? (
-                <ListboxItem
-                  key={link.uid}
-                  title={link.label}
-                  startContent={<MoveUpRight size={12} />}
-                  onPress={() => {
-                    window.open(link.href, '_blank');
-                    setIsMenuOpen(false);
-                  }}
-                />
-              ) : (
-                <ListboxItem
-                  key={link.uid}
-                  title={link.label}
-                  startContent={<File size={12} />}
-                  onPress={() => {
-                    router.push(link.href, { locale: locale });
-                    setIsMenuOpen(false);
-                  }}
-                />
-              )
-            )}
-          </Listbox>
+        
 
           <p className="font-bold">{messages.account}</p>
           {context.isSignedIn() ? (

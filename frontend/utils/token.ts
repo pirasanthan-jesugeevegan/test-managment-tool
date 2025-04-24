@@ -159,9 +159,13 @@ function isProjectReporter(projectRoles: ProjectRoleType[], projectId: number) {
   return false;
 }
 
-// private paths are '/account', '/admin', '/projects/*'
+// Make all paths private except for sign-in and sign-up
 const isPrivatePath = (pathname: string) => {
-  return /^\/account(\/)?$/.test(pathname) || /^\/admin(\/.*)?$/.test(pathname) || /^\/projects(\/.*)?$/.test(pathname);
+  // Exclude sign-in and sign-up paths
+  if (/^\/account\/signin(\/)?$/.test(pathname) || /^\/account\/signup(\/)?$/.test(pathname)) {
+    return false;
+  }
+  return true; // All other paths are considered private
 };
 
 function checkSignInPage(token: TokenType, pathname: string) {

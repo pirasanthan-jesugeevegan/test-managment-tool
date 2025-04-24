@@ -4,7 +4,7 @@ import { Button } from '@heroui/react';
 import { Plus } from 'lucide-react';
 import { TokenContext } from '@/utils/TokenProvider';
 import { ProjectDialogMessages, ProjectType, ProjectsMessages } from '@/types/project';
-import ProjectsTable from './ProjectsTable';
+import ProjectsTable from './projects/ProjectsTable';
 import ProjectDialog from '@/components/ProjectDialog';
 import { fetchProjects, createProject } from '@/utils/projectsControl';
 import { LocaleCodeType } from '@/types/locale';
@@ -18,6 +18,7 @@ export type Props = {
 export default function ProjectsPage({ messages, projectDialogMessages, locale }: Props) {
   const context = useContext(TokenContext);
   const [projects, setProjects] = useState<ProjectType[]>([]);
+
 
   useEffect(() => {
     async function fetchDataEffect() {
